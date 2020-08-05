@@ -101,9 +101,10 @@ function toggleRecording() {
 
 // The nested try blocks will be simplified when Chrome 47 moves to Stable
 function startRecording() {
+  let mime = "";
   document.getElementById("status").innerText = "Start recording.\n";
   var options = {mimeType: 'video/webm;codecs=vp9', bitsPerSecond: 100000};
-  document.getElementById("status").innerText += "video/webm;codecs=vp9\n";
+  mime = 'video/webm;codecs=vp9';
   recordedBlobs = [];
   try {
     mediaRecorder = new MediaRecorder(window.stream, options);
@@ -111,11 +112,13 @@ function startRecording() {
     console.log ( 'Unable to create MediaRecorder with options Object: ' + options + e0 );
     try {
       options = {mimeType: 'video/webm;codecs=vp8', bitsPerSecond: 100000};
+      mime = 'video/webm;codecs=vp8';
       mediaRecorder = new MediaRecorder(window.stream, options);
     } catch (e1) {
       console.log('Unable to create MediaRecorder with options Object: ', options, e1);
       try {
         options = 'video/mp4';
+        mime = 'video/mp4';
         mediaRecorder = new MediaRecorder(window.stream, options);
       } catch (e2) {
         alert('MediaRecorder is not supported by this browser.');
@@ -124,6 +127,7 @@ function startRecording() {
       }
     }
   }
+  document.getElementById("status").innerText += "\n. " + mime;
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
   recordButton.textContent = 'Stop Recording';
   playButton.disabled = true;
