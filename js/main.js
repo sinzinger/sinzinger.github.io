@@ -35,9 +35,9 @@ recordButton.onclick = toggleRecording;
 playButton.onclick = play;
 downloadButton.onclick = download;
 
-var status = document.getElementById("status")
+var status = document.getElementById("status");
 
-
+/* 
 console.log(location.host);
 // window.isSecureContext could be used for Chrome
 var isSecureOrigin = location.protocol === 'https:' ||
@@ -47,6 +47,7 @@ if (!isSecureOrigin) {
     '\n\nChanging protocol to HTTPS');
   location.protocol = 'HTTPS';
 }
+*/ 
 
 var constraints = {
   audio: true,
@@ -100,14 +101,14 @@ function toggleRecording() {
 
 // The nested try blocks will be simplified when Chrome 47 moves to Stable
 function startRecording() {
-  status.innerHtml = "Check this out."
+  document.getElementById("status").innerText = "Start recording.\n";
   var options = {mimeType: 'video/webm;codecs=vp9', bitsPerSecond: 100000};
+  document.getElementById("status").innerText += "video/webm;codecs=vp9\n";
   recordedBlobs = [];
   try {
     mediaRecorder = new MediaRecorder(window.stream, options);
   } catch (e0) {
-    console.log('Unable to create MediaRecorder with options Object: ', options, e0);
-    
+    console.log ( 'Unable to create MediaRecorder with options Object: ' + options + e0 );
     try {
       options = {mimeType: 'video/webm;codecs=vp8', bitsPerSecond: 100000};
       mediaRecorder = new MediaRecorder(window.stream, options);
